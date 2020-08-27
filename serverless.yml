@@ -1,0 +1,54 @@
+#                          $$$$$$$$                          
+#                  ./$$$$$$$$$$$$$$$$$$$$$,                  
+#              $$$$$$$$$$$/       \$$$$$$$$$$$$              
+#           $$$$$$$$$$$$,           ,$$$$$$$$$$$$           
+#         $$$$$$$$$$$$$,              ,$$$$$$$$$$$$$         
+#       $$$$$$$$$$$$$$$               ,$$$$$$$$$$$$$$$       
+#      $$$$$$$$$$$$$$$,              ,$$$$$$$$$$$$$$$$$,     
+#    .$$$$$$$$$$$$$$,              .$$$$$$$$$$$$$$$$$$$$,    
+#    $$$$$$$,               $$$$$$$$$$$$$$$$     .$$$$$$$.   
+#   $$$$$.               $$$$$$$$$$$$$$$,            $$$$$   
+#   $$$$               .$$$$$$$$$$$$$$$               $$$$   
+#   $$$$               /$$$$$$$$$$$$$$$               ,$$$   
+#   $$$$                $$$$$$$$$$$$$$.               $$$$   
+#   $$$$$$               ,$$$$$$$$$$$               ,$$$$/   
+#    $$$$$$$$$$,.             ..             .,$$$$$$$$$$    
+#     $$$$$$$$$$$$$$$                    $$$$$$$$$$$$$$$.    
+#      $$$$$$$$$$$$$$$$                $$$$$$$$$$$$$$$$      
+#       .$$$$$$$$$$$$$$                $$$$$$$$$$$$$$$       
+#         ,$$$$$$$$$$$$$               $$$$$$$$$$$$$         
+#            $$$$$$$$$$$$            ,$$$$$$$$$$$.           
+#               $$$$$$$$$$$$      $$$$$$$$$$$/               
+#                    $$$$$$$$$$$$$$$$$$$$.
+#                          $$$$$$$$
+#
+#   Created By: Five Talent Software
+
+service: /Projects/SSITH-Reaper
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'develop'}
+  region: ${opt:region, 'us-west-2'}
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'lambda:InvokeFunction'
+        - "ec2:*"
+      Resource: '*'
+
+package:
+  exclude:
+    - node_modules/aws-sdk/**/*
+
+functions:
+  hello:
+    handler: src/index.hello
+  reaper:
+    handler: src/reaper.handler
+    timeout: 60
+    events: 
+      - eventBridge:
+          schedule: rate(60 minutes)
+          enabled: true

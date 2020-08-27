@@ -1,12 +1,5 @@
-# Five Talent Serverless AWS NODEJS Template
-
-Serverless framework template for AWS NodeJS
-
-## Quick Start
-
-Create a new serverless project with this template by running:
-
-```bash
-serverless create --template-url https://github.com/FiveTalent/fts-aws-nodejs --path /path_to_awesome_service
-```
 # SSITH-FETT-Reaper
+A Serverless Lambda service for terminating long-running f1 instances
+
+##Instructions
+
